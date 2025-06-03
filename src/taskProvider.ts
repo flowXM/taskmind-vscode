@@ -34,13 +34,13 @@ export class TaskItem extends vscode.TreeItem {
         this.tooltip = `${path.basename(taskData.fileName)}:${taskData.lineNumber}\nСтатус: ${taskData.status}\nПриоритет: ${taskData.priority || 'N/A'}`;
         this.contextValue = 'taskItem';
 
-        if (taskData.aiSuggestions && taskData.aiSuggestions.length > 0) {
-            this.iconPath = new vscode.ThemeIcon('sparkle');
-        }
-
         if (taskData.status === 'done') {
             this.iconPath = new vscode.ThemeIcon('check');
-        } else {
+        }
+        else if (taskData.aiSuggestions && taskData.aiSuggestions.length > 0) {
+            this.iconPath = new vscode.ThemeIcon('sparkle');
+        }
+        else {
             switch (taskData.type.toUpperCase()) {
                 case 'TODO': this.iconPath = new vscode.ThemeIcon('checklist'); break;
                 case 'FIXME': this.iconPath = new vscode.ThemeIcon('tools'); break;
