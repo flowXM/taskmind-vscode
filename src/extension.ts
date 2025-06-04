@@ -208,8 +208,9 @@ async function getAISuggestion(task: Task): Promise<string | null> {
 
         // Получаем контекст задачи
         const document = await vscode.workspace.openTextDocument(task.fileName);
-        const startLine = Math.max(0, task.lineNumber - 3);
-        const endLine = Math.min(document.lineCount, task.lineNumber + 3);
+        const contextLines = 20;
+        const startLine = Math.max(0, task.lineNumber - contextLines);
+        const endLine = Math.min(document.lineCount, task.lineNumber + contextLines);
         let context = '';
 
         for (let i = startLine; i < endLine; i++) {
@@ -261,9 +262,34 @@ function showSuggestionPanel(task: Task, suggestion: string) {
         <meta charset="UTF-8">
         <title>ИИ-предложение</title>
         <style>
-            body { padding: 20px; font-family: sans-serif; }
-            .task-info { background: #f5f5f5; padding: 15px; border-radius: 5px; margin-bottom: 20px; }
-            .suggestion { background: #e8f4ff; padding: 15px; border-radius: 5px; white-space: pre-wrap; }
+            body { 
+                padding: 20px; 
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, sans-serif;
+                background-color: #1e1e1e;
+                color: #d4d4d4;
+                line-height: 1.5;
+            }
+            .task-info { 
+                background: #252526; 
+                padding: 15px; 
+                border-radius: 5px; 
+                margin-bottom: 20px; 
+                border-left: 3px solid #569cd6;
+            }
+            .suggestion { 
+                background: #2d2d30; 
+                padding: 15px; 
+                border-radius: 5px; 
+                white-space: pre-wrap;
+                border-left: 3px solid #4ec9b0;
+            }
+            h3 {
+                color: #569cd6;
+                margin-top: 0;
+            }
+            p {
+                margin-bottom: 0.5em;
+            }
         </style>
     </head>
     <body>
